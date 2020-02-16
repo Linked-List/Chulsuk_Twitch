@@ -2,6 +2,7 @@ const tmi = require('tmi.js');
 const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
 const smtpPool = require('nodemailer-smtp-pool');
+const fs = require('fs');
 
 dotenv.config();
 
@@ -65,7 +66,6 @@ function onMessageHandler (target, context, msg, self) {
     chulSuk = true;
     user_list = [];
     client.say(target, `[출석리셋] 출석표가 초기화 되었습니다.`);
-    console.log(`* Executed ${commandName} command`);
   } else if(commandName === '!출석끝' && context.username === ignore_list[0] && chulSuk === true){ // 방장만 가능한 명령어
     let todayList = '';
     for(let i=0;i<user_list.length;i++){
@@ -81,11 +81,15 @@ function onMessageHandler (target, context, msg, self) {
     smtpTransport.sendMail(mailOpt, function(err, res) {
       if (err) {
         console.log(err);
-        client.say(target,'띠용 뭔가 잘못되고있어 ㅠ_ㅠ');
-        //여기다가 채팅으로 입력 코드
+        client.say(target,'띠용 뭔가 잘못되고있어 ㅠ_ㅠ 대충 백업은 했는데 링크드불러바');
+        fs.writeFile('./chulSuk.txt',todayList.replace('<br>','\n'),function(err){
+			if(err){
+				console.log(`Error ${err}`);
+			}
+			console.log('파일에 대신 저장했습니다');
+		});
       } else {
         console.log('Message send :' + res);
-        //client.say(target,`${process.env.EMAIL_NAME}으로 출석표를 보내놨습니다 ㅎㅎ`);
         client.say(target,'출석표를 보내놨습니다 ㅎㅎ');
         chulSuk = false;
       }
@@ -95,6 +99,7 @@ function onMessageHandler (target, context, msg, self) {
     const usrName = context['display-name'];
     if(user_list.indexOf(usrName) === -1){
       user_list.push(usrName);
+      console.log(`Pushed ${usrName} to ChulsukBoo`);
       //client.say(target, `${usrName} 님 반갑습니다. 데스노트적힘 ㅅㄱ`);
     }
 
