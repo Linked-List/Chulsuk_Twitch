@@ -1,6 +1,9 @@
 const tmi = require('tmi.js');
+const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
 const smtpPool = require('nodemailer-smtp-pool');
+
+dotenv.config();
 
 // Define configuration options
 const opts = {
