@@ -18,6 +18,10 @@ const opts = {
 // Create a client with our options
 const client = new tmi.client(opts);
 
+var ignore_list = [process.env.CHANNEL_NAME, 'bbangddeock', 'Nightbot'];
+var user_list = [];
+var chulSuk = false;
+
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
@@ -44,10 +48,6 @@ const smtpTransport = nodemailer.createTransport(
   })
 );
 
-var ignore_list = [process.env.CHANNEL_NAME, 'bbangddeock', 'Nightbot'];
-var user_list = [];
-var chulSuk = false;
-
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
   if (self) {
@@ -63,6 +63,7 @@ function onMessageHandler(target, context, msg, self) {
     chulSuk = true;
     user_list = [];
     client.say(target, `[출석리셋] 출석표가 초기화 되었습니다.`);
+	console.log('--출석부 시작--');
   } else if (commandName === '!출석끝' && context.username === ignore_list[0] && chulSuk === true) {
     // 방장만 가능한 명령어
     let todayList = '';
@@ -92,7 +93,7 @@ function onMessageHandler(target, context, msg, self) {
           console.log('파일에 대신 저장했습니다');
         });
       } else {
-        console.log('Message send :' + res);
+        console.log('--출석부 전송완료--')
         client.say(target, '출석표를 보내놨습니다 ㅎㅎ');
         chulSuk = false;
       }
