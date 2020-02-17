@@ -1,0 +1,8 @@
+# node Modules
+node_modules/
+
+# dotenv file
+.env
+
+
+chulSuk.txt

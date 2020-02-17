@@ -48,7 +48,7 @@ const smtpTransport = nodemailer.createTransport(
 
 var ignore_list = [
   process.env.CHANNEL_NAME,
-  'Bbangddeock',
+  'bbangddeock',
   'Nightbot',
 ];
 var user_list = [];
