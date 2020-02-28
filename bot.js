@@ -94,7 +94,7 @@ function onMessageHandler(target, context, msg, self) {
         });
       } else {
         console.log('--출석부 전송완료--')
-        client.say(target, '출석표를 보내놨습니다 ㅎㅎ');
+        client.say(target, '주인님 출석표를 보내놨다돔 >_ㅇ');
         chulSuk = false;
       }
     });
